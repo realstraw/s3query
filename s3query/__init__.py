@@ -41,6 +41,20 @@ class S3File(object):
         return self
 
     def next(self):
+
+        def handle_eof():
+            raise StopIteration
+
+        return self._next(handle_eof)
+
+    def readline(self):
+
+        def handle_eof():
+            return ""
+
+        return self._next(handle_eof)
+
+    def _next(self, handle_eof):
         try:
             if self._current_part_file:
                 # if already have an open file
@@ -51,14 +65,14 @@ class S3File(object):
                     if self._next_file():
                         return self.next()
                     else:
-                        raise StopIteration
+                        return handle_eof()
             else:
                 if self._next_file():
                     return self.next()
                 else:
-                    raise StopIteration
+                    return handle_eof()
         except IndexError:
-            raise StopIteration
+            return handle_eof()
 
     def _next_file(self):
         """
@@ -70,6 +84,8 @@ class S3File(object):
             f = StringIO()
             key.get_contents_to_file(f)
             f.seek(0)
+            if self._current_part_file:
+                self._current_part_file.close()
             self._current_part_file = f
             return True
         except IndexError:
@@ -78,12 +94,12 @@ class S3File(object):
     def __enter__(self):
         return self
 
-    def __exit__(self):
+    def __exit__(self, type, value, traceback):
         self.close()
 
     def close(self):
         """
         Close the connection
         """
-        # TODO implement
-        raise NotImplementedError
+        if self._current_part_file:
+            self._current_part_file.close()
