@@ -9,8 +9,7 @@ def _parse_s3_url(uri_string):
     if parsed_url.scheme != "s3":
         return False
     bucket = parsed_url.netloc
-    filename = parsed_url.path
-    filename = filename[1:] if filename[0] == "/" else filename
+    filename = parsed_url.path.lstrip("/")
     return bucket, filename
 
 
