@@ -2,6 +2,7 @@ from urlparse import urlparse
 from boto.s3.connection import S3Connection
 import os
 from cStringIO import StringIO
+import gzip
 
 
 def _parse_s3_url(uri_string):
@@ -54,6 +55,9 @@ class S3File(object):
         return self._next(handle_eof)
 
     def _next(self, handle_eof):
+        """
+        Get the next line, and handles the EOF based the function handle_eof
+        """
         try:
             if self._current_part_file:
                 # if already have an open file
@@ -85,7 +89,11 @@ class S3File(object):
             f.seek(0)
             if self._current_part_file:
                 self._current_part_file.close()
-            self._current_part_file = f
+            if key.name.endswith(".gz"):
+                gzf = gzip.GzipFile(fileobj=f)
+                self._current_part_file = gzf
+            else:
+                self._current_part_file = f
             return True
         except IndexError:
             return False
