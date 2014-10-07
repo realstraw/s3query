@@ -5,10 +5,14 @@ from cStringIO import StringIO
 import gzip
 
 
+class UnsupportedProtocolError(Exception):
+    pass
+
+
 def _parse_s3_url(uri_string):
     parsed_url = urlparse(uri_string)
     if parsed_url.scheme != "s3":
-        return False
+        raise UnsupportedProtocolError("must be a s3 url")
     bucket = parsed_url.netloc
     filename = parsed_url.path.lstrip("/")
     return bucket, filename
