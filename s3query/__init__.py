@@ -4,6 +4,8 @@ import os
 from cStringIO import StringIO
 import gzip
 
+__version__ = '0.1'
+
 
 class UnsupportedProtocolError(Exception):
     pass

@@ -8,47 +8,31 @@ within a directory as one single file.
 # Example
 
     >>> from s3query import s3open
+    >>> import sys
     >>>
     >>> with s3open("s3://s3query/data/testgz/") as fgz:
     ...     for line in fgz:
-    ...         print line
+    ...         sys.stdout.write(line)
     ...
     one
-
     two
-
     three
-
     four
-
     five
-
     six
-
     seven
-
     eight
-
     nine
-
     >>> with s3open("s3://s3query/data/test/") as fplain:
     ...     for line in fplain:
-    ...         print line
+    ...         sys.stdout.write(line)
     ...
     one
-
     two
-
     three
-
     four
-
     five
-
     six
-
     seven
-
     eight
-
     nine
