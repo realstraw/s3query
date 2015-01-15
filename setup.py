@@ -13,8 +13,10 @@ setup(
     author_email='ikexinxie@gmail.com',
     license='BSD',
     url='https://github.com/realstraw/s3query',
+    download_url="https://github.com/realstraw/s3query/archive/v{version}"
+    ".tar.gz".format(version=__version__),
     py_modules=["s3file"],
-    install_requires=['boto==2.32.1'],
+    install_requires=['boto>=2.32.1'],
     platforms=["any"],
     classifiers=[
         "Development Status :: 4 - Beta",
