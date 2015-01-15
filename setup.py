@@ -15,7 +15,7 @@ setup(
     url='https://github.com/realstraw/s3query',
     download_url="https://github.com/realstraw/s3query/archive/v{version}"
     ".tar.gz".format(version=__version__),
-    py_modules=["s3file"],
+    py_modules=["s3query"],
     install_requires=['boto>=2.32.1'],
     platforms=["any"],
     classifiers=[
