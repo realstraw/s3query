@@ -1,10 +1,9 @@
 from urlparse import urlparse
-from boto.s3.connection import S3Connection
 import os
 from cStringIO import StringIO
 import gzip
 
-__version__ = '0.2'
+__version__ = '0.3'
 
 
 class UnsupportedProtocolError(Exception):
@@ -33,6 +32,8 @@ class S3File(object):
 
     def __init__(
             self, bucket, filename, aws_access_key_id, aws_secret_access_key):
+        from boto.s3.connection import S3Connection
+
         self._conn = S3Connection(aws_access_key_id, aws_secret_access_key)
         self.bucket = self._conn.get_bucket(bucket)
         if filename.endswith("/"):
